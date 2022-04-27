@@ -1,0 +1,78 @@
+%% Creator: Inkscape 1.1.2 (0a00cf5339, 2022-02-04, custom), www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'topic_modeling_demo.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{845.09725255bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.45808238)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{topic_modeling_demo.pdf}}%
+    \put(0.119404,0.41647168){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}document $\bm{x}_\ell$\end{tabular}}}}%
+    \put(0.07230216,0.35773217){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textit{Dow Jones}\\\textit{Wall St.}\\\textit{Congress}\\\textit{White House}\\\textit{Obama}\\       .\\       .\\       .\\\textit{WWII}\\\textit{Churchill}\\\end{tabular}}}}%
+    \put(0.43198224,0.35773217){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textit{Dow Jones}\\\textit{Wall St.}\\\textit{Congress}\\\textit{White House}\\\textit{Obama}\\       .\\       .\\       .\\\textit{WWII}\\\textit{Churchill}\\\end{tabular}}}}%
+    \put(0.01984682,0.16850446){\rotatebox{90}{\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}Word dictionary\end{tabular}}}}}%
+    \put(0.31770393,0.22304177){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\approx$\end{tabular}}}}%
+    \put(0.555855,0.4061442){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}economy\end{tabular}}}}%
+    \put(0.78202791,0.40713768){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}history\end{tabular}}}}%
+    \put(0.89919109,0.40165513){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}weights\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{topic_modeling_demo.pdf}}%
+    \put(0.95303781,0.35130292){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$0.1$\\$0.6$\\$0.3$\end{tabular}}}}%
+    \put(0.91883696,0.24986149){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bm{h}_\ell$\end{tabular}}}}%
+    \put(0.58554773,0.06274393){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bm{w}_1$\end{tabular}}}}%
+    \put(0.79914952,0.06274393){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bm{w}_3$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{topic_modeling_demo.pdf}}%
+    \put(0.67780845,0.40724368){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}politics\end{tabular}}}}%
+    \put(0.69564973,0.06274393){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bm{w}_2$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{topic_modeling_demo.pdf}}%
+    \put(0.86776325,0.01927915){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}high prob. word\end{tabular}}}}%
+    \put(0.07805803,0.03738354){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bm{x}_\ell  \approx 0.1 \times \bm{w}_1 + 0.6\times \bm{w}_2 + 0.3\times \bm{w}_3$\end{tabular}}}}%
+    \put(0.07785031,0.00862124){\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\textbf{doc.}  \approx 0.1 \times \textbf{economy} + 0.6 \times \textbf{politics} + 0.3\times \textbf{history}$\end{tabular}}}}%
+  \end{picture}%
+\endgroup%
