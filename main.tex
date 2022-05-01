@@ -203,7 +203,7 @@
 \tikzset{%
   highlight/.style={rectangle,rounded corners,fill=red!5,draw,
     fill opacity=0.0,thick,inner sep=0pt},
-  myhighlight/.style={rectangle,fill=blue,draw=none,fill opacity=.1,inner sep=0pt}
+  myhighlight/.style={rectangle,fill=ForestGreen,draw=none,fill opacity=.5,inner sep=0pt,rounded corners}
 }
 \newcommand{\tikzmarkx}[2]{\tikz[overlay,remember picture,
   baseline=(#1.base)] \node (#1) {#2};}
@@ -309,7 +309,7 @@ My name is Tri Nguyen. Thank you for serving as my committee. Today I'm glad to 
 %----------------------------------------------------------------------------------------
 %	PRESENTATION SLIDES
 %----------------------------------------------------------------------------------------
-\includeonlyframes{current}
+% \includeonlyframes{current}
 
 \section{Outline}
 \begin{frame}
@@ -1433,26 +1433,6 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
 % \end{frame}
 
 
-% \begin{frame}
-%     \frametitle{Identifiability}
-% \begin{align*} 
-%     \|\bm{C}_{\rm opt}(n,:)\|_\infty &> 1- \beta, ~ \forall n \in {\mathcal{K}}, \\
-%     \|\bm{C}_{\rm opt}(n,:)\|_\infty &\leq 2\rho\dfrac{N-K}{ \lambda N} \norm{\bm{V}}_{\rm F}^2 + \mu N \log(N) + \beta K ,  ~~\forall n \notin {\cal K} 
-% \end{align*}
-%
-% To sum up, 
-% \begin{itemize}
-%     \item With proper hyperparameters $(\lambda, \mu)$, $\mathcal{K}$ can be extracted by inspecting solution $\bm{C}_{\rm opt}$
-%         \begin{figure}[t]
-%             \centering
-%             \includegraphics[width=0.4\textwidth]{figures/synthetic_data/unknown_K.eps}
-%             \caption*{$M=50, K=10, N=100, \texttt{SNR}=20\text{dB}, \lambda=0.5$}
-%         \end{figure}
-%     \item However, the theorem does not speak for memory consumption.
-% \end{itemize}
-%
-% \end{frame}
-
 \begin{frame}
 \frametitle{Memory}    
 \begin{itemize}
@@ -1470,7 +1450,7 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
     &\bm{s}_\ell^{t} \leftarrow \bm{e}_{n^{\star}}, \quad n^{\star} = \argmin_{n} \; [\nabla h(\bm{c}_\ell)]_n  \\
     &\bm{c}_\ell^{t+1} \leftarrow \bm{c}_\ell^{t} + \alpha (\bm{s}_{\ell}^{t}-\bm{c}_{\ell}^{t}), \quad \alpha^{t} = 2/(2+t)
     \end{align*} 
-    \item The gradient is given by
+    \item Gradient is given by
 \[ 
     \nabla h(\bm{c}_\ell) = \nabla f(\bm{c}_\ell) + \lambda [\nabla \varPhi_{\mu}(\bm{C})]_{:, \ell} 
 \] 
@@ -1494,101 +1474,254 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
 }
 \end{frame}
 
-% \begin{frame}
-% \frametitle{Memory}    
-% \begin{block}
-%     
-% FW's updating procedure can be performed using $O(N)$ memory.
-% \end{block}
-% \begin{itemize}
-%     \item Recall the update steps are
-%         \begin{align}
-%         &\bm{S}^{t} \leftarrow \argmin_{\bm{S} \in \mathcal{D}} \; \langle \underbrace{\nabla f(\bm{C})}_{\bm{G}}, \bm{S} \rangle  \label{eq:sub_S} \\
-%         &\bm{C}^{t+1} \leftarrow \bm{C}^{t} + (1-\alpha) (\bm{S}^{t}-\bm{C}^{t}), \quad \alpha^{t} = 2/(2+t)
-%         \end{align} 
-%     \item This procedure can be performed on columns of $\bm{C}$ individually
-%     % \begin{itemize}
-%     %     \item Simplex constraint is columns-wise imposed.
-%     %     \item Linear objective function can be decomposed to columns of $\bm{C}$.
-%     % \end{itemize}
-%     \begin{align}
-%     &\bm{s}_\ell^{t} \leftarrow \argmin_{\bm{s}_\ell \geq 0, \bm{1}^{\T}\bm{s}=1} \; \langle \bm{g}_\ell, \bm{s}_\ell \rangle  \\
-%     &\bm{c}_\ell^{t+1} \leftarrow \bm{c}_\ell^{t} + (1-\alpha) (\bm{s}_{\ell}^{t}-\bm{c}_{\ell}^{t}), \quad \alpha^{t} = 2/(2+t)
-%     \end{align} 
-%     \item Moreover, 
-% $ \bm{g}_\ell = \bm{X}^{\T}(\bm{X}\bm{c}_\ell - \bm{x}_\ell) + \lambda [\nabla \varPhi_{\mu}(\bm{C})]_{:, \ell} $ where
-% \[
-%     [\nabla \varPhi_{\mu}(\bm{C})]_{n,\ell} = \dfrac{\exp (c_{n, \ell}/\mu)}{\sum^{N}_{i=1} \exp(c_{n, i}/\mu)} 
-% \] 
-% \end{itemize}
-%
-%
-% \note{
-% \begin{itemize}
-%         \item Simplex constraint is columns-wise imposed.
-%         \item Linear objective function can be decomposed to columns of $\bm{C}$.
-% \end{itemize}
-% }
-% \end{frame}
-
-% \begin{frame}
-% \frametitle{Memory}    
-% \begin{theorem}[Informal]
-%     If 
-%     \begin{itemize}
-%         \item $\text{supp}(\bm{c}_\ell^{t}) \subseteq \mathcal{K}$ for all $\ell$.
-%         \item There exists $k \in \mathcal{K}$, such that $\bm{C}^{t}(k, :) \neq t \bm{1}^{\T}$.
-%         \item Noise is bounded as $ \max_{n} \norm{\bm{v}_n}_2 \leq  \sqrt{\gamma^2 + \upsilon } -\gamma $ 
-% where 
-% \begin{align*}
-% &\upsilon= \lambda (1/N - \exp(\mu/\psi))/4 - D , \quad \quad
-% \psi = \min_{\substack{1 \leq i,j \leq N, \\ n \in \mathcal{K},  c^t_{n,i} \neq c^t_{n,j}}} \abs{c^t_{n,i} - c^t_{n, j}} 
-% \end{align*}
-% and $\gamma, D$ are some constants depending on  $\bm{W}, \bm{H}$.
-%     \end{itemize}
-%     then FW will update an $j_{\ell}$-th element of  $\bm{c}_\ell^{t}$ such that $j_\ell \in \mathcal{K}$ for all $\ell$.
-%     % $\text{supp}(\bm{c}_{\ell}^{t+1}) \subseteq \mathcal{K}$ for all $\ell$.
-%
-% \end{theorem}
-%
-% % Similar to the noiseless case, FW can always pick an index $n \in \mathcal{K}$ to update $\bm{c}_\ell$ with the help of regularization.
-% % \[ 
-% %     \bm{g}_\ell = \underbrace{\bm{X}^{\T}(\bm{X}\bm{c}_\ell - \bm{x}_\ell)}_{\bm{q}_\ell} + \lambda \underbrace{[\nabla \varPhi_{\mu}(\bm{C})]_{:, \ell}}_{\bm{y}_\ell} , \quad 
-% %     y_{n,\ell} = \dfrac{\exp (c_{n, \ell}/\mu)}{\sum^{N}_{i=1} \exp(c_{n, i}/\mu)} 
-% % \]
-% % \begin{itemize}
-% %     \item For $k \notin \mathcal{K}$,
-% %         $ [\nabla \varPhi_{\mu}(\bm{C})]_{k, \ell} = 1/N$. 
-% %     % \item $\exists k \in \mathcal{K}, \bm{C}(k, :)$ is not a constant $\Rightarrow \exists k \in \mathcal{K} y_{k, \ell}$ is not the largest element in row $k$-th.
-% %     \item If $ \exists k\in \mathcal{K}$ such that $c_{k, \ell}$ is not the largest element in row $k$-th (*), then
-% %          % $ y_{k, l} \approx 0 $  for certain $\mu$.
-% %          $
-% %          y_{k, \ell} < \exp ((c_{k, \ell} - c_{k, \star})/\mu), \quad c_{k, \star} = \max_{i} c_{k, i}
-% %          $ 
-% %     \item Therefore, 
-% %         \[
-% %             \begin{cases}
-% %                 y_{k, \ell} \approx 0 \quad & \text{if } k\in \mathcal{K}\\
-% %                 y_{k, \ell} = \lambda/N \quad & \text{if } k \notin \mathcal{K}
-% %             \end{cases}
-% %         \] 
-% %     \item (*) always holds if there exists $k \in \mathcal{K}$ such that $\bm{C}(k, :)$ is not a constant
-% % \end{itemize}
-%
-%
-% \note{
-% \begin{itemize}
-%     \item Increasing $\lambda$ to counter attack noise
-% \end{itemize}}
-% \end{frame}
 
 \begin{frame}[label=current]
-    \frametitle{Regularization Helps Saving Memory}
-    Gradient is given by
+    \frametitle{Effect of Noise}
+\begin{itemize}
+    \item Gradient of $f(\bm{c}_\ell) = 1/2\norm{\bm{X} - \bm{X}\bm{C}}_{\rm F}^2$
 \begin{align*} 
-    &\nabla h(\bm{c}_\ell) = \underbrace{[\bm{h}_1^{\T}\bm{q}_\ell, \ldots , \bm{h}_N^{\T}\bm{q}_\ell]^{\T} + \bm{n}_\ell}_{\nabla f(\bm{c}_\ell)} + \lambda \underbrace{[\nabla \varPhi_{\mu}(\bm{C})]_{:, \ell}}_{\bm{y}_\ell}
+    &\nabla f(\bm{c}_\ell) = [\bm{h}_1^{\T}\bm{q}_\ell, \ldots , \bm{h}_N^{\T}\bm{q}_\ell]^{\T} + \bm{n}_\ell 
 \end{align*}
-% An example of $\bm{C}$,
+    \item A demonstration of effect of noise that causes 
+        \[
+        n^{\star}:=\argmin_{n}\; [\nabla f(\bm{c}_\ell)]_n \notin \mathcal{K}
+    \]
+\[
+    \footnotesize
+\nabla f(\bm{c}_\ell) = 
+\begin{tikzpicture}[mymatrixenv,baseline=-\the\dimexpr\fontdimen22\textfont2\relax]
+    \matrix[mymatrix, ampersand replacement=\&,inner sep=2.5pt,
+    % column 1/.style={nodes={fill=blue!10}},
+    ] (m)  {
+        0.5 \\
+        1.5 \\
+        1.5 \\
+        2.0 \\
+        \vdots \\
+        1.5 \\
+    };
+    \node[left=0.5cm of m-1-1, text width=0.3cm] (firstcomm) {$n^{\star}$};
+    \mymatrixbraceleft{1}{3}{$\mathcal{K}$};
+    \draw[dashed,->] (firstcomm) -- (m-1-1);
+    % \node[above=5pt of m-1-1.north west,anchor=south west] (m11) {};
+    % \node[above=5pt of m-1-1.north east,anchor=south east] (mm11) {};
+    % \fill[myhighlight] 
+    %     (m11.south west) -- (m-4-1.north west) -- 
+    %     (m-4-1.north east) -- (mm11.south east) -- cycle;
+\end{tikzpicture}
+ + 
+\begin{bmatrix}
+0.5 \\
+1.5 \\
+-0.5 \\
+1.0 \\
+\vdots  \\
+-1.0
+\end{bmatrix} 
+=
+\begin{tikzpicture}[mymatrixenv,baseline=-\the\dimexpr\fontdimen22\textfont2\relax]
+    \matrix[mymatrix, ampersand replacement=\&,inner sep=2.5pt,
+    % column 1/.style={nodes={fill=blue!10}},
+    ] (mx)  {
+        1.0 \\
+        3.0 \\
+        1.0 \\
+        3.0 \\
+        \vdots  \\
+        0.5 \\
+    };
+    \node[right=0.5cm of mx-6-1, text width=0.3cm] (lastnode) {$n^{\star}$};
+    \mymatrixbraceleft{1}{3}{$\mathcal{K}$};
+    \draw[dashed,<-] (mx-6-1) -- (lastnode);
+\end{tikzpicture}
+\]
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=current]
+    \frametitle{Effect of Regularization}
+    % \begin{block}
+    %     
+    %     Regularization can ensure $n^{\star} \in \mathcal{K}$ under some reasonable assumptions.
+    % \end{block}
+    \begin{itemize}
+        \item Gradient of the regularization 
+\begin{align*} 
+    % &\nabla h(\bm{c}_\ell) = [\bm{h}_1^{\T}\bm{q}, \ldots , \bm{h}_N^{\T}\bm{q}]^{\T} + \bm{n}+ \lambda \underbrace{[\nabla \varPhi_{\mu}(\bm{C})]_{:, \ell}}_{\bm{y}_\ell}, 
+    &\bm{y}_\ell = [\nabla \varPhi_{\mu}(\bm{C})]_{:, \ell} , \quad 
+    y_{n,\ell} = \dfrac{\exp (c_{n, \ell}/\mu)}{\sum^{N}_{i=1} \exp(c_{n, i}/\mu)} 
+\end{align*}
+\begin{itemize}
+    \item For $k \notin \mathcal{K}$,
+        $ y_{k, \ell} = 1/N$. 
+    \item If $ \exists k_0 \in \mathcal{K}$ such that $c_{k_0, \ell}$ is not the largest element in row $k_0$ (*), then
+         $ y_{k_0, \ell} < \exp ((c_{k_0, \ell} - c_{k_0, \star})/\mu), \quad c_{k_0, \star} = \max_{i} c_{k_0, i} $ 
+\end{itemize}
+
+\item An example of $\bm{C}$ and $\bm{y}_\ell$,
+\[
+\footnotesize
+\bm{C} = 
+\begin{tikzpicture}[mymatrixenv,baseline=-\the\dimexpr\fontdimen22\textfont2\relax]
+    \matrix[mymatrix, ampersand replacement=\&,inner sep=2.5pt,
+    ] (m) {
+ \vphantom{x} \& 0.3 \& \&\ldots \&   \& 0.1 \& \\
+ \vphantom{x} \& 0.2\&\& \ldots \&   \& 0.6 \& \vphantom{x} \\
+ \vphantom{x} \& 0.5 \&   \&\ldots\&  \& 0.3 \& \\
+ \vphantom{x} \&\bm{0} \&\& \vdots \&  \& \bm{0} \& \\
+ \vphantom{x} \& \vphantom{x} \&\& \& \& \& \\
+    };
+    \mymatrixbraceright{1}{3}{$\mathcal{K}$};
+    \node[above=5pt of m-1-2.north west, anchor=south west] (l) {$\ell$};
+    \node[above=5pt of m-1-2.north east, anchor=south east] (ll) {};
+    \node[above=5pt of m-1-6] (m) {$m$};
+
+    \node[below=6em of m-1-2.north west, anchor=north west] (dl) {};
+    \node[below=6em of m-1-2.north east, anchor=north east] (dr) {};
+    \fill[myhighlight] 
+        (l.south west) -- (dl.north west) -- 
+        (dr.north east) -- (ll.south east) -- cycle;
+    \node[draw,rounded corners=3pt,inner xsep=1pt, fit=(m-2-1)(m-2-7)]{};
+\end{tikzpicture}
+\quad \Longrightarrow \quad
+\bm{y}_\ell = 
+\left[
+\begin{array}{c}
+    0.5 \\
+    0.001 \\
+    0.9 \\
+    1/N \\
+    \vdots \\
+    1/N
+\end{array}
+\right]
+\] 
+    \end{itemize}
+
+\end{frame}
+
+
+\begin{frame}[label=current]
+    \frametitle{Regularization Can Saves Memory}
+    \begin{block}
+
+        Regularization can ensure $n^{\star} \in \mathcal{K}$ under some reasonable assumptions.
+    \end{block}
+    \begin{itemize}
+        \item Gradient 
+\begin{equation*} 
+    \nabla h(\bm{c}_\ell) = \nabla f(\bm{c}_\ell) + \lambda \bm{y}_\ell, 
+\end{equation*}
+    \item We have 
+        \[
+            \begin{cases}
+                y_{k_0, \ell} \approx 0 \quad& \text{for some }  k_0 \in \mathcal{K} \\
+                y_{k, \ell} = 1/N \quad & \text{if } k \notin \mathcal{K}
+            \end{cases}
+        \] 
+        \[
+            \Rightarrow \argmin_{n} \; [\nabla h(\bm{c}_\ell)]_n = k_0 \quad \text{for some $\lambda$}
+        \] 
+        % And hence, FW will pick some index $k \in \mathcal{K}$ .
+\item An example of $\bm{C}$ and $\nabla h(\bm{c}_\ell)$,
+% \[
+% \footnotesize
+% \bm{C} = 
+% \begin{tikzpicture}[mymatrixenv,baseline=-\the\dimexpr\fontdimen22\textfont2\relax]
+%     \matrix[mymatrix, ampersand replacement=\&,inner sep=2.5pt,
+%     ] (m) {
+%  \vphantom{x} \& 0.3 \& \&\ldots \&   \& 0.1 \& \\
+%  \vphantom{x} \& 0.2\&\& \ldots \&   \& 0.6 \& \vphantom{x} \\
+%  \vphantom{x} \& 0.5 \&   \&\ldots\&  \& 0.3 \& \\
+%  \vphantom{x} \&\bm{0} \&\& \vdots \&  \& \bm{0} \& \\
+%  \vphantom{x} \& \vphantom{x} \&\& \& \& \& \\
+%     };
+%     \mymatrixbraceright{1}{3}{$\mathcal{K}$};
+%     \node[above=5pt of m-1-2.north west, anchor=south west] (l) {$\ell$};
+%     \node[above=5pt of m-1-2.north east, anchor=south east] (ll) {};
+%     \node[above=5pt of m-1-6] (m) {$m$};
+%
+%     \node[below=6em of m-1-2.north west, anchor=north west] (dl) {};
+%     \node[below=6em of m-1-2.north east, anchor=north east] (dr) {};
+%     \fill[myhighlight] 
+%         (l.south west) -- (dl.north west) -- 
+%         (dr.north east) -- (ll.south east) -- cycle;
+%     \node[draw,rounded corners=3pt,inner xsep=1pt, fit=(m-2-1)(m-2-7)]{};
+% \end{tikzpicture}
+% \quad \Longrightarrow \quad
+% \bm{y}_\ell = 
+% \begin{bmatrix}
+%     0.5 \\
+%     0.001 \\
+%     0.9 \\
+%     1/N \\
+%     \vdots \\
+%     1/N
+% \end{bmatrix}
+% \] 
+\[
+\footnotesize
+\Longrightarrow \nabla h(\bm{c}_\ell) 
+=
+\begin{tikzpicture}[mymatrixenv,baseline=-\the\dimexpr\fontdimen22\textfont2\relax]
+    \matrix[mymatrix, ampersand replacement=\&,inner sep=2.5pt,
+    ] (m)  {
+        1.0 \\
+        3.0 \\
+        1.0 \\
+        3.0 \\
+        \vdots  \\
+        0.5 \\
+    };
+    \mymatrixbraceright{1}{3}{$\mathcal{K}$};
+    \node[below = 10pt of m-6-1, text width=50pt,xshift=-10pt](smallest) {the smallest element};
+    \draw[dashed,->] (smallest.north) to [out=100,in=180] (m-6-1.west);
+\end{tikzpicture}
++ 
+\lambda
+\begin{bmatrix}
+    0.5 \\
+    0.001 \\
+    0.9 \\
+    1/N \\
+    \vdots \\
+    1/N
+\end{bmatrix}
+\]
+    \end{itemize}
+\end{frame}
+
+% \begin{frame}[label=current]
+%     \frametitle{Effect of Regularization}
+%     % \begin{block}
+%     %     
+%     %     Regularization can ensure $n^{\star} \in \mathcal{K}$ under some reasonable assumptions.
+%     % \end{block}
+%     \begin{itemize}
+%         \item Gradient of the regularization 
+% \begin{align*} 
+%     % &\nabla h(\bm{c}_\ell) = [\bm{h}_1^{\T}\bm{q}, \ldots , \bm{h}_N^{\T}\bm{q}]^{\T} + \bm{n}+ \lambda \underbrace{[\nabla \varPhi_{\mu}(\bm{C})]_{:, \ell}}_{\bm{y}_\ell}, 
+%     &\bm{y}_\ell = [\nabla \varPhi_{\mu}(\bm{C})]_{:, \ell} , \quad 
+%     y_{n,\ell} = \dfrac{\exp (c_{n, \ell}/\mu)}{\sum^{N}_{i=1} \exp(c_{n, i}/\mu)} 
+% \end{align*}
+% \begin{itemize}
+%     \item For $k \notin \mathcal{K}$,
+%         $ y_{k, \ell} = 1/N$. 
+%     \item If $ \exists k_0 \in \mathcal{K}$ such that $c_{k_0, \ell}$ is not the largest element in row $k_0$ (*), then
+%          $ y_{k_0, \ell} < \exp ((c_{k_0, \ell} - c_{k_0, \star})/\mu), \quad c_{k_0, \star} = \max_{i} c_{k_0, i} $ 
+%     % \item Therefore, 
+%     %     \[
+%     %         \begin{cases}
+%     %             y_{k_0, \ell} \approx 0 \quad & \\
+%     %             y_{k, \ell} = 1/N \quad & \text{if } k \notin \mathcal{K}
+%     %         \end{cases}
+%     %         \Rightarrow \argmin_{n} \; [\nabla h(\bm{c}_\ell)]_n = k_0 \quad \text{for some $\lambda$}
+%     %     \] 
+%         % And hence, FW will pick some index $k \in \mathcal{K}$ .
+% \end{itemize}
+%     % (*) always holds if there exists $k \in \mathcal{K}$ such that $\bm{C}(k, :)$ is not a constant.
+%
+% \item An example of $\bm{C}$,
 % \[
 %     \scriptsize
 %     \bm{C} = 
@@ -1607,165 +1740,26 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
 %  &&& & & & \\
 % \end{array} 
 % \right]
-% \Highlight[first]
-% \]
-\begin{itemize}
-    \item A demonstration of effect of noise that causes $\argmin_{n}\; [\nabla f(\bm{c}_\ell)]_n \notin \mathcal{K}$
-\[
-\nabla f(\bm{c}_\ell) = 
-\begin{tikzpicture}[mymatrixenv,baseline=-\the\dimexpr\fontdimen22\textfont2\relax]
-    \matrix[mymatrix, ampersand replacement=\&,inner sep=2.5pt,
-    % column 1/.style={nodes={fill=blue!10}},
-    ] (m)  {
-        % \tikz[remember picture,baseline=(1.base),inner sep=0pt] \node (1) {1.5} \\
-        \tikznode{1}{1.5} \\
-        0.5 \\
-        % \tikz[remember picture,baseline=(2.base),inner sep=0pt] \node (2) {1.5} \\
-        \tikznode{2}{1.5} \\
-        2.0 \\
-        \vdots \\
-        1.5 \\
-    };
-    \node[left = of m-1-1, text width=0.3cm] (firstcomm) {$n^{\star}$};
-    \mymatrixbraceleft{1}{3}{$\mathcal{K}$};
-    \draw[dashed,->] (firstcomm) -- (m-1-1);
-    % \node[fill=blue,opacity=0.3,fit=(1) (2)]
-\end{tikzpicture}
- + 
-\begin{bmatrix}
-0.5 \\
-1.5 \\
--0.5 \\
-1.0 \\
-\vdots  \\
--1.0
-\end{bmatrix} 
-=
-\begin{bmatrix}
-2.0 \\
-2.0 \\
-1.5 \\
-3.0 \\
-\vdots  \\
-0.5
-\end{bmatrix} 
-\]
+% \Highlight[first],
+% \quad
+% \bm{y}_\ell = 
+% \left[
+% \begin{array}{c}
+%     0.5 \\
+%     0.001 \\
+%     0.9 \\
+%     1/N \\
+%     \vdots \\
+%     1/N
+% \end{array}
+% \right]
+% \] 
+%     \end{itemize}
+%
+% \end{frame}
 
-\end{itemize}
-\begin{itemize}
-    \item For $k \notin \mathcal{K}$,
-        $ y_{k, \ell} = 1/N$. 
-    \item If $ \exists k_0 \in \mathcal{K}$ such that $c_{k_0, \ell}$ is not the largest element in row $k_0$ (*), then
-         $ y_{k_0, \ell} < \exp ((c_{k_0, \ell} - c_{k_0, \star})/\mu), \quad c_{k_0, \star} = \max_{i} c_{k_0, i} $ 
-    % \item Therefore, 
-    %     \[
-    %         \begin{cases}
-    %             y_{k_0, \ell} \approx 0 \quad & \\
-    %             y_{k, \ell} = 1/N \quad & \text{if } k \notin \mathcal{K}
-    %         \end{cases}
-    %         \Rightarrow \argmin_{n} \; [\nabla h(\bm{c}_\ell)]_n = k_0 \quad \text{for some $\lambda$}
-    %     \] 
-        % And hence, FW will pick some index $k \in \mathcal{K}$ .
-\end{itemize}
-    % (*) always holds if there exists $k \in \mathcal{K}$ such that $\bm{C}(k, :)$ is not a constant.
-
-
-\end{frame}
-
-\begin{frame}[label=current]
-\frametitle{demon}    
-\[
-\begin{tikzpicture}[mymatrixenv]
-    \matrix[mymatrix, ampersand replacement=\&] (m)  {
-        a \& b \& c \& d \\
-        e \& f \& g \& h \\
-        i \& j \& k \& l \\
-        m \& n \& o \& p \\
-    };
-    \mymatrixbraceright{1}{3}{$A$}
-    \mymatrixbracetop{2}{4}{$R$}
-\end{tikzpicture}
-\]
-\end{frame}
-
-\begin{frame}[label=current]
-    \frametitle{Regularization Helps Saving Memory}
-    \begin{block}
-        
-        Regularization can ensure $n^{\star} \in \mathcal{K}$ under some reasonable assumptions.
-    \end{block}
-% An  example of $\bm{C}$,
-% Gradient respect to column $\bm{c}_{\ell}$,
-\begin{align*} 
-    &\nabla h(\bm{c}_\ell) = [\bm{h}_1^{\T}\bm{q}, \ldots , \bm{h}_N^{\T}\bm{q}]^{\T} + \bm{n}+ \lambda \underbrace{[\nabla \varPhi_{\mu}(\bm{C})]_{:, \ell}}_{\bm{y}_\ell},  \\
-    &y_{n,\ell} = \dfrac{\exp (c_{n, \ell}/\mu)}{\sum^{N}_{i=1} \exp(c_{n, i}/\mu)} 
-\end{align*}
-\begin{itemize}
-    \item For $k \notin \mathcal{K}$,
-        $ y_{k, \ell} = 1/N$. 
-    \item If $ \exists k_0 \in \mathcal{K}$ such that $c_{k_0, \ell}$ is not the largest element in row $k_0$ (*), then
-         $ y_{k_0, \ell} < \exp ((c_{k_0, \ell} - c_{k_0, \star})/\mu), \quad c_{k_0, \star} = \max_{i} c_{k_0, i} $ 
-    % \item Therefore, 
-    %     \[
-    %         \begin{cases}
-    %             y_{k_0, \ell} \approx 0 \quad & \\
-    %             y_{k, \ell} = 1/N \quad & \text{if } k \notin \mathcal{K}
-    %         \end{cases}
-    %         \Rightarrow \argmin_{n} \; [\nabla h(\bm{c}_\ell)]_n = k_0 \quad \text{for some $\lambda$}
-    %     \] 
-        % And hence, FW will pick some index $k \in \mathcal{K}$ .
-\end{itemize}
-    % (*) always holds if there exists $k \in \mathcal{K}$ such that $\bm{C}(k, :)$ is not a constant.
-
-An example of $\bm{C}$,
-\[
-    \scriptsize
-    \bm{C} = 
-\begin{array}{*7{c}}% matrix for left braces
-    \coolleftbrace{\mathcal{K}}{x \\ x\\ x} \\
-    \vphantom{x} \\
-    \vphantom{x} \\
-    \vphantom{x} \\
-\end{array}%
-\left[  
-\begin{array}{c>{\columncolor{blue!20}}cccccc}
- & \coolover{\ell}{0.3} & &\ldots &   & \coolover{m}{0.1} & \\
- \tikzmarkx{left}{\vphantom{0} }&0.2&& \ldots &   & 0.6 &\tikzmarkx{right}{ } \\
- & 0.5 &   &\ldots&  & 0.3 & \\
- &\bm{0} && \vdots &  & \bm{0} & \\
- &&& & & & \\
-\end{array} 
-\right]
-\Highlight[first],
-\;
-\nabla h(\bm{c}_\ell) = 
-\left[
-\begin{array}{c}
-    \cdot \\
-    1.5 \\
-    \cdot \\
-    0.9 \\
-    \vdots \\
-    \vphantom{x}
-\end{array}
-\right] + 
-\lambda 
-\left[
-\begin{array}{c}
-    \cdot \\
-    0.001 \\
-    \cdot \\
-    1/N \\
-    \vdots \\
-    1/N
-\end{array}
-\right]
-\] 
-
-\end{frame}
-
-\begin{frame}[label=current]
-    \frametitle{Regularization Helps Saving Memory}
+\begin{frame}<presentation:0>
+    \frametitle{Condition (*)}
 
     \begin{block}
         
@@ -1819,55 +1813,6 @@ An example of $\bm{C}$,
     \end{itemize}
 \end{frame}
 
-
-% \begin{frame}
-% \frametitle{Memory}    
-% \begin{theorem}[Regularized Case, Memory Efficiency]
-% Assume that 
-% \begin{itemize}
-%     \item $\text{rank}(\bm{W})=K$
-%     \item there exists at least an $n^\star \in \mathcal{K}$ such that $\bm{C}^t(n^\star,:)$ is not a constant row vector
-%     \item The noise bound satisfies
-%     $ \delta \leq  \sqrt{\gamma^2 + \upsilon } -\gamma $ 
-% where 
-% \begin{align*}
-% &\gamma = \max_{k \in [K]} \norm{\bm{w}_k}_2, \\
-% &\upsilon= \lambda (1/N - \exp(\mu/\psi))/4 - D ,\\
-% &\psi = \min_{\substack{1 \leq i,j \leq N, \\ n \in \mathcal{K},  c^t_{n,i} \neq c^t_{n,j}}} \abs{c^t_{n,i} - c^t_{n, j}} 
-% \end{align*}
-% and $D$ is some constant depending on  $\bm{W}, \bm{H}$
-% \end{itemize}
-%
-% If in iteration $t$, $\bm{C}^{t}$ satisfies ${\rm supp}(\bm{c}^{t}_\ell) \subseteq \mathcal{K}$ for all $\ell\in[N]$
-% then, to attain $\bm{c}_\ell^{t+1}$ from $\bm{c}_\ell^t$, FW will update the $j_\ell$th element of $\bm{c}_\ell^t$ such that $j_\ell\in{\mathcal{K}}$ for all $\ell\in[N]$.
-% \end{theorem}
-% \end{frame}
-
-% \begin{frame}
-%     \frametitle{Initialization Condition}
-%
-% \begin{proposition}[Initialization Condition]
-%     Let $\bm{C}^{\rm init}$ be a feasible initial solution. 
-%     Define $$D_{ij}^n(\bm{C}) = \frac{t_{\rm init} (t_{\rm init}+1)}{2}\abs{c_{n,i} - c_{n,j}}$$ for some $t_{\rm init} \in \mathbb{N}, t_{\rm init}  \geq 1$.
-%     Suppose that for some $ n^{\star} \in \mathcal{K}$, there exists a pair of $i^\star,j^\star$ such that {the following regularity condition is satisfied}:
-%      \begin{equation*}
-%          D_{i^\star j^\star}^{n^{\star}}(\bm{C}^{\rm init}) \notin \mathbb{N}.
-%     \end{equation*} 
-%     Running FW with $ \bm{C}^t=\bm{C}^{\rm init}$ starting with $t=t_{\text{init}}$ for $T$ iterations, the produced solution sequence $\set{\bm{C}}^{t}$ for $t \geq t_{\rm init}+1$ satisfies $\bm{C}^{t}(n^{\star}, :)$ is not a constant row vector and 
-%     \[
-%         \min_{\substack{{ n \in \mathcal{K},} i,j \\ c^t_{n,i} \neq c^t_{n,j}}}\abs{c^t_{n,i} - c^t_{n, j}} \geq \dfrac{2 \xi}{T(T+1)}
-%     \]
-%     where 
-% $
-%         \xi \coloneqq  \min_{
-%         \substack{n \in \mathcal{K},i,j, 
-%             z \in \mathbb{N} \\
-%             D_{i,j}^n(\bm{C}^{\rm init}) \notin \mathbb{N}
-%         }
-%     } \abs{D_{i,j}^{n}(\bm{C}^{\rm init}) - z}.
-% $ 
-% \end{proposition}
-% \end{frame}
 
 
 \section{Experiment Demonstration}%
@@ -2279,5 +2224,5 @@ Metric
     \printbibliography}
 \end{frame}
 
-
+% https://tex.stackexchange.com/questions/332027/how-to-annotate-matrices-with-circles-and-arrows
 \end{document}
