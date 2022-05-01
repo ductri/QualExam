@@ -1,0 +1,14 @@
+tags
+.*
+*.m
+my_rsync/
+data/
+scripts/
+sdmmv/topic_modeling/data/
+sdmmv/topic_modeling/results/
+sdmmv/community_detection/data/
+sdmmv/community_detection/results/
+sdmmv/topic_modeling/results/tdt2/old/
+*.mexa64
+migration_comm/results/whole_us*
+

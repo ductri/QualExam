@@ -1,0 +1,7 @@
+down_exclude_path=scripts/my_rsync/rsync_down.exclude
+up_exclude_path=scripts/my_rsync/rsync_up.exclude
+local_path=~/code/matlab/
+remote_path=/scratch/tri/matlab/
+remote_user=nguyetr9
+remote_host=desktop
+port=22

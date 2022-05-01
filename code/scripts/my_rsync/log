@@ -1,0 +1,22 @@
+
+====== Thu Apr 28 03:40:29 PM PDT 2022 =======
+SYNC UP to kruskal.eecs.oregonstate.edu
+sending incremental file list
+
+sent 1.27K bytes  received 14 bytes  858.00 bytes/sec
+total size is 55.78K  speedup is 43.34
+
+
+====== Thu Apr 28 03:41:52 PM PDT 2022 =======
+SYNC UP to kruskal.eecs.oregonstate.edu
+sending incremental file list
+./
+deleting cvx_log/logging.txt
+cvx_log/
+scripts/
+scripts/run_it.sh
+            599 100%    0.00kB/s    0:00:00              599 100%    0.00kB/s    0:00:00 (xfr#1, to-chk=0/37)
+
+sent 1.65K bytes  received 79 bytes  692.40 bytes/sec
+total size is 55.78K  speedup is 32.22
+
