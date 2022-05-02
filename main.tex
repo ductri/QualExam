@@ -22,8 +22,8 @@
 \usetheme{default}
 \usecolortheme{orchid}
 \usefonttheme{professionalfonts}
-% \setbeamertemplate{note page}[plain]
-% \setbeameroption{show notes on second screen=left}
+\setbeamertemplate{note page}[plain]
+\setbeameroption{show notes on second screen=left}
 
 \usepackage{graphicx} % Allows including images
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
@@ -93,6 +93,7 @@
 \usepackage{pgfplots}
 \usepackage{hhline}
 \usepackage{bibentry}
+\usepackage{appendixnumberbeamer}
 % --------------------------------------------------------- 
 % SETTINGS
 % --------------------------------------------------------- 
@@ -545,19 +546,21 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
 
 \note{
 \begin{itemize}
-    \item So we will need to restrict our model to by imposing some assumption to gain identifiability. There are several conditions that can guarantee identifiability. One of the well-known conditions is separability condition.
-    \item It states that \ldots 
-    \item This condition has been exploited in terms of algorithm design. Particularly, the problem of finding $\bm{W}, \bm{H}$ boils down to finding the set $\mathcal{K}$. The rationale is like this.
+    \item There have been several works that investigate the conditions that can guarantee identifiability.
+    One of the well-known conditions is separability condition.
+    \item It states that \ldots . The term was first coined in this work, and have been adapted in many works after that.
+    \item The condition has been exploited to when it comes to algorithm design. Particularly, the problem of finding $\bm{W}, \bm{H}$ boils down to finding the set $\mathcal{K}$. The rationale is like this.
 
-        Consider a noiseless case, the sub-matrix $\bm{X}(:, \mathcal{K})$ that is constructed by stacking columns of $\bm{X}$ that has indices from $\mathcal{K}$.
+    This notation means a sub-matrix constructed by from columns of $\bm{X}$ with indices from $\mathcal{K}$. Therefore, knowing $\mathcal{K}$ already reveals $\bm{W}$. Then finding $\bm{H}$ becomes a trivial task.
 
-
-    \item The condition is not only help guaranteeing identifiability but also has interesting and reasonable physical interpretation.
+    \item In terms of application, the condition imposes interesting and reasonable physical interpretation.
         \begin{itemize}
-            \item For example, in topic modeling, it asserts that for each topic, such as economy, there exists a word that only belong to that topic, in this case, `Wall St.'. Similar to other topics.
-            \item In communities, a node can belong to multiple communities. Under separability condition, there exists nodes called pure nodes, that only belong to a single community.
+            \item For example, in topic modeling, it asserts that for each topic, there exists a word that only belong to that topic. 
+            \item In communities, there exists a node that only belongs to a single community. 
+            \item Other similar interpretations are presented in other applications.
         \end{itemize}
-\end{itemize}}
+\end{itemize}
+}
 \end{frame}
 
 \section{Related Works}%
@@ -589,34 +592,16 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
 
     \note{
     \begin{itemize}
-        \item There have been many formulations developed for problem of finding $\mathcal{K}$ under separability condition.
-            One interesting perspective is from dictionary learning. The objective function is a row-0 norm, which counts number of nonzero in $\bm{C}$.
-        \item {\blue [Look at figure]} Under this formulation, we are looking for a smallest subset of columns for $\bm{X}$ to present itself.
-        \item To see how does this formulation help revealing $\mathcal{K}$, we will take a look at the optimal solution. 
-        \item Under noiseless case, the solution can be constructed  as follows. The rows corresponding to $\mathcal{K}$ is the ground truth $\bm{H}$, and the other rows are $ \bm{0}$.
-        \item This is firstly a feasible point, as it satisfies all constraint.
-        \item Secondly, for a full rank $\bm{W}$, one will need at least $K$ data points, hence this is an optimal solution.
-        \item So by inspecting this $\bm{C}_{\text{opt}}$, we can identify $\mathcal{K}$ as indices of non-zero rows in $\bm{C}$
-
-        \item The formulation in (2) resembles dictionary learning, except that the dictionary is the data itself, hence the name self-dictionary.
-            % To have a better look at this formulation, or how solving this formulation leads to $\mathcal{K}$? Next slide
+        \item There have been many formulations developed for problem of finding $\mathcal{K}$ under separability condition. One interesting perspective is from self-diction and sparse regression, as shown in this formulation. The objective function is row-0 norm, which counts number of nonzero rows in $\bm{C}$.
+        \item The optimal solution of this problem has a particular structure, which is:
+            \begin{itemize}
+                \item A part of $\bm{C}_{\text{opt}}$ where row indices in $\mathcal{K}$ are $\bm{H}$
+                \item The other are $ \bm{0}$ rows.
+            \end{itemize}
+            First of all, [look at picture], we can see that this $\bm{C}$ satisfies all constraints. Objective value at $\bm{C}$ is $K$.
+        \item And for a full rank $\bm{W}$, one will need at least $K$ non-zero rows from $\bm{C}$.
+        \item With this structure of $\bm{C}_{\text{opt}}$, we can easily identify $\mathcal{K}$.
     \end{itemize}}
-% {  \setbeamercolor{block title}{bg=ForestGreen,fg=black}
-%     \begin{block}
-%
-%          When $\text{rank}(\bm{W}) =K$, and assume $\mathcal{K}=[K]$, and noise is absent, then $\bm{C}_{\text{opt}} = \begin{bmatrix}
-%          \bm{H} \\ \bm{0}
-%          \end{bmatrix} $ since
-%          $ \bm{X} \bm{C} = [\bm{W}, \bm{X}'] 
-%          \begin{bmatrix}
-%          \bm{H} \\ \bm{0}
-%          \end{bmatrix}  = \bm{W}\bm{H} = \bm{X} $.
-%
-%          See formal proof at \citep{fu2014self}.
-%     \end{block}
-% }
-
-
 \end{frame}
 
 % \begin{frame}
@@ -704,22 +689,24 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
         &&& \bm{C} \geq 0, \bm{1}^{\T}\bm{C} = \bm{1}^{\T}
     \end{alignat*}
      \begin{itemize}
-         \item The greedy approach identifies set $\mathcal{K}$ one index by a time by looking at columns in $\bm{X}$ \citep{fu2014self}.
+         \item The greedy approach identifies set $\mathcal{K}$ by adding one index at a time \citep{fu2014self}.
          \item Successive projection algorithm \citep{MC01} is a representative. 
-         \item Extracting $\mathcal{K}$ is even guaranteed in noisy case \citep{gillis2014fast}.
+         \item Extracting $\mathcal{K}$ is guaranteed even in noisy case \citep{gillis2014fast}.
          \item All greedy-based methods have a Gram-Schmidt structure which is prone to error propagation under noisy condition.
      \end{itemize}
      \note{
 \begin{itemize}
-    \item Solving this optimization problem is not a trivial task. It is firstly not a convex problem due to the row-0, and secondly, and more importantly, it is a combinatorial problem in essence. So a native greedy search would be prohibited even if number of vertices $K$ is given.
-        \item One of the approach has been largely studied is greedy approach. As the name suggested, methods in this approach construct set $\mathcal{K}$ by adding 1 index at a time.
-        \item A famous successive projection algorithm is a representitive.
-        \item And estimating exact $\mathcal{K}$ is guaranteed, even under noisy condition.
-        \item Methods under this approach has a Gram-Schidt-like structure in their algorithms. Since it addes an index one by one, when noise is present, an error from one step will be accumulated and effect future steps. This make methods under this approach sensitive to noise.
+    % \item Under this the formulation, there are 2 main approaches in the literature.
+    \item Solving this optimization problem is not a trivial task. It is firstly not a convex problem due to the row-0, and secondly, and it is a combinatorial problem in essence. 
+        % So a native greedy search would be prohibited even if number of vertices $K$ is given.
+        \item One of the approaches has been largely studied is greedy approach. As the name suggested, methods in this approach construct set $\mathcal{K}$ by adding 1 index at a time.
+        \item A famous successive projection algorithm (SPA) is a representative of this approach.
+        \item And it has been shown that estimating exact $\mathcal{K}$ is guaranteed, even under noisy condition.
+        \item However, all methods following the greedy approach have a Gram-Schmidt structure in their algorithms. When noise is present, an error made in one iteration will be propagated to future iterations. 
+            % This make methods under this approach sensitive to noise.
 \end{itemize}
      }
 \end{frame}
-
 
 \subsection{Convex Relaxation Approach}%
 \label{sub:convex_relaxation_approach}
@@ -788,25 +775,22 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
 
     \note{
     \begin{itemize}
-        \item The second approach try to identify $\mathcal{K}$ in all-at-once manner, so this avoids the accumulation error.
-        \item As mentioned before, the original problem is non-convex, which makes it hard in terms of optimisation. 
-        \item So one way is to use a convex opt problem as a surrogate. There has been many convex relaxation formulations proposed in the literature. 
-            % One example is this formulation where the row-0 is relaxed by the so-called mixed norm. 
-        \item Under this formulation, identifiability is guaranteed via optimal solution $\bm{C}$.
+        \item The second approach is called convex relaxation.
+        \item As mentioned before, the original problem is non-convex, which makes it hard in terms of optimisation. So a natural thing to do is to use a convex opt problem as a surrogate. There has been many convex relaxation formulations proposed in the literature. 
+        
+            One example is this formulation where the objective function comprises of 2 terms: the fitting error and a regularization to promote row-sparsity of $\bm{C}$.
+        \item Under this formulation, identifiability is guaranteed.
         \item Since the algorithm does not suffer from error propagation, it is often more robust then the previous approach. We'll see some evidence on this in our experiments.
-        \item However, memory is an obstacle for this approach. As we can see, size of variable $\bm{C}$ is $N$ by $N$.  If it is a dense matrix, memory requirement will grow quadratically.  
-            As an example, we run a method named FastGradient from this work, which is considered as state-of-the-art under this approach, on a synthetic setting and measure its memory consumption. We can see that memory cost grows quadratically to $N$. This prohibits its applicability to large scale problem when  $N$ could reach to 100000.
-        \item We aim to have an algorithm that can leverage the convex relaxation approach because of its noise robustness, and also be able to work on large scale problem.
-    \item Toward this end, we propose using Frank-Wolfe method to achieve that goal.
+        \item However, memory is an obstacle for this approach. Size of variable $\bm{C}$ is $N$ by $N$.  If it is a dense matrix, memory requirement will grow quadratically.  
+
+            As an example, FastGradient is a method following this approach and is considered as state-of-the-art. We run FastGradient on  synthetic data and measure its memory consumption. We can see that memory cost grows quadratically to $N$. This memory cost prohibits this approach's applicability to large scale problem when $N$ could reach to 100000.
+        \item The question is can we do any better?
     \end{itemize}
     }
 \end{frame}
 
-
 \section{Proposal: Frank-Wolfe}%
 \label{sec:what_are_we_proposing_}
-
-\subsection{Warm-up: Noiseless Case}%
 
 \begin{frame}
     \frametitle{Proposal: Frank-Wolfe}
@@ -815,7 +799,17 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
         \item We follow the convex relaxation approach.
         \item We propose to use Frank-Wolfe as the optimization method to guarantee  $O(KN)$ memory consumption.
     \end{itemize}
+    \note{
+        Yes, in the followings, I'll present our proposal on the use of FW. Particularly, 
+    \begin{itemize}
+    \item We follow the convex relaxation approach because of its noise robustness
+    \item We propose using Frank-Wolfe method as the optimization method that can guarantee a memory cost of $O(KN)$.
+    \end{itemize}
+    }
 \end{frame}
+
+\subsection{Warm-up: Noiseless Case}%
+
 
 \begin{frame}
     \frametitle{Warm-up with Noiseless Case}
@@ -899,12 +893,13 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
 
   \note{
       \begin{itemize}
-          \item To see how FW can realize our goal, let's start with a noiseless case. Consider a simple optimisation problem. This problem is convex, but could have multiple solution.
-          \item A desired solution $\bm{C}^{\star}$ is one of them. It is a desired solution because by inspecting $\mathcal{C}^{\star}$, we can extract $\mathcal{K}$ exactly.
-          \item There are other solutions as well, for example, an identity matrix, which provides no information about $\mathcal{K}$.
-          \item To demonstrate FW's magic, we compare results when running Accelerated Proximal Gradient, a typical first order method for constrained optimisation problem, and compare it with Frank-Wolfe.
-          \item As we can see, both methods converged and gives a good solutions in terms of objective value. However, there are 2 interesting and important points. Firstly, only FW outputs a solution $\bm{C}^{\star}$ which is perfectly reveal $\mathcal{K}$.
-          \item Secondly, if we take a look at the density of $\bm{C}$ against iterations, we can see that FW consistently keeps $\bm{C}$ being very sparse, compared to APG. This is the key for memory efficiency when using FW.
+          \item To see how FW can realize our goal, let's start with a noiseless case. Consider the following simple optimization problem. This problem is convex, but could have multiple solutions.
+          \item As example a solution $\bm{C}^{\star}$. It is a desired solution because by inspecting $\bm{C}^{\star}$, we can extract $\mathcal{K}$ exactly.
+          \item There are other solutions as well, for example, an identity matrix, but it provides no information about $\mathcal{K}$.
+          \item To demonstrate FW's magic, we run Accelerated Proximal Gradient, a typical first order method for constrained optimization problem, and compare it with Frank-Wolfe.
+          \item Firstly, both methods converge and gives a good solutions in terms of objective value. However, if we look at non zero row in the optimal solution, only FW reveals perfect $\mathcal{K}$. 
+          
+          \item Secondly, if we take a look at the density of $\bm{C}$ during the optimization produce, we can see that FW consistently keeps $\bm{C}$ being very sparse, compared to APG. This is the key for memory efficiency when using FW.
       \end{itemize}
   }
 \end{frame}
@@ -974,10 +969,13 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
     
     \note{
     \begin{itemize}
+        \item Before showing how FW produces such result, let's us briefly review about this method. 
         \item The other name is conditional gradient descent, and has been invented in the 1950s.
-        \item It solves for convex obj \ldots 
-        \item A standard update procedure is 
-        \item In our case, the constraint is \ldots 
+        \item It solves a constraint optimization where the objective $f$ is convex and the constraint $\mathcal{D}$ is a compact convex set.
+        \item A standard update procedure involves 2 steps. The first step involves a sub-problem which can be solved very efficiently for many constraints.
+        \item In our case, the constraint is a probability simplex, and solving it only cost $O(n)$ in terms of computation. 
+
+        In detail, the solution $\bm{s}$ for this step is a canonical unit vector, where the index $n^{\star}$ is index of the smallest element of the gradient.
     \end{itemize}
     }
 \end{frame}
@@ -1049,7 +1047,20 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
         \[\text{supp}(\bm{c}^{t}) \subseteq \mathcal{K}\] 
         holds in all iterations $t$ until FW terminates.
     \end{itemize}
+
+
+    \note{
+    \begin{itemize}
+        \item Get back to our problem, note that the original problem is decomposible and hence we can solve it for each column of $\bm{C}$ independently.
+        \item The updating procedure is given by these 2 steps.
+        \item The key observation is that when initialising $\bm{c}$ at $ \bm{0}$, if $\bm{n}^{\star} \in \mathcal{K}$, then $\text{supp}(\bm{c}^{t}) \subseteq \mathcal{K}$ for all $t$. This implies that most part of $\bm{C}$ are actually just $0$, only  $KN$ elements in  $C$ aren't.
+        \item So the magic is the fact that $n^{\star} \in \mathcal{K}$ really holds.
+    \end{itemize}
+    }
 \end{frame}
+
+
+
 \begin{frame}[label=fine]
     \frametitle{FW in Noiseless Case}
     \begin{block}
@@ -1081,7 +1092,7 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
     \end{itemize}
     \end{itemize}
 
-    To sum up, in noiseless case,
+    To sum up, in noiseless case, with $\bm{c}^{0} = \bm{0}$,
     \begin{itemize}
         \item $\text{supp}(\bm{c}^{t}) \subseteq \mathcal{K}$ for all $t$.
         \item FW terminates when $\bm{c}^{t} = \bm{c}^{\star} = \begin{bmatrix}
@@ -1089,6 +1100,19 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
         \end{bmatrix}$.
     \item Therefore, FW outputs $\bm{C}_{\text{opt}} = \bm{C}^{\star}$ using only $O(KN)$ memory.
     \end{itemize}
+    
+    \note{
+    \begin{itemize}
+        \item Firstly, gradient has this form
+        \item Note that we are looking for index of the smallest element. That index is $n^{\star}$ if either
+            \begin{itemize}
+                \item $\bm{h}_{n^{\star}}$ is some canonical unit vector.
+                \item Or $\bm{q} = \bm{0}$. In this case, we can terminate FW since the desired solution is found.
+            \end{itemize}
+        \item To sum up, what we have shown is that with initialization at $ \bm{0}$, $\text{supp}(\bm{c})$ is always a subset of $\mathcal{K}$, and when FW terminates, we get a desired solution $\bm{c}^{\star}$. Therefore, we can conclude that FW outputs $\bm{C}^{\star}$ using only $O(KN)$ memory.
+    \end{itemize}
+    }
+
 \end{frame}
 
 % \begin{frame}[label=fine]
@@ -1238,6 +1262,14 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
       \end{subfigure}
       \caption*{$\bm{C}_{\text{opt}}$ obtained by FW; $M=40, N=50, K=10$.}
   \end{figure}  
+
+  \note{
+  \begin{itemize}
+      \item However, when noise is introduced, the picked index $n^{\star}$ could be outside of $\mathcal{K}$. 
+      \item Thus, FW is no longer guaranteed to output $\bm{C}^{\star}$.
+      \item As a simple demonstration, we run FW on 3 cases with increasing noise level. It is evident that when noise is large, the solution obtained by FW could not gives us the desired $\bm{C}^{\star}$.
+  \end{itemize}
+  }
 \end{frame}
 
 \subsection{Enhancement in Noisy Case}%
@@ -1265,8 +1297,12 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
 
     \note{
     \begin{itemize}
-        \item Comment on $\mu$
-        \item ``In the end, we aim to solve \ldots ''
+        \item In order to deal with noise, it is common to introduce regularizations. In our problem, the prior is row-sparsity of $\bm{C}$. There have been many different regularizations used in the literature to promote row-sparsity of $\bm{C}$
+        \item The mixed-norm l1, l-inf is an example.
+        \item In terms of optimization, FW works best with a smooth function. Therefore, we propose a smooth function to approximate the mix-norm l1, l-inf.
+        \item The hyperparameter $\mu$ controls the accuracy of approximating  l-inf.
+        \item To this end, we propose to solve the following problem. The objective includes 2 terms: the fitting error and our smooth regularization.
+        \item We will refer our FW implement on this problem as MERIT
     \end{itemize}
     }
 \end{frame}
@@ -1336,7 +1372,7 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
               /pgf/number format/.cd,
               1000 sep={},
               xlabel=iter,
-              ylabel=$\norm{\bm{C}(n, :)}$,
+              ylabel=$\text{nnz}(\bm{C})$,
               legend pos=south east,
               legend cell align={left},
               ]
@@ -1350,6 +1386,17 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
       \vspace{-0.3cm}
       \caption*{$M=40, K=10, N=50, \texttt{SNR}=30\text{dB}, \mu=1{e-}6, \lambda = 0.1$.}
   \end{figure}
+ 
+
+  \note{
+  \begin{itemize}
+      \item We first achieve identifiability when working on this formulation. The result uses a similar idea to this work. 
+          % This basically says that using an approximate doesn't break identifiability.
+      \item Secondly, it's worth to stress that any convex method can be used to archive identifiability. 
+      \item To demonstrate, we run APG and FW on this problem. Both method produce similar optimal objective values, can both optimal solutions can be used to identify $\mathcal{K}$. 
+      \item However, it is noticeable that  our method, MERIT, constantly keeps $\bm{C}$ being much more sparse compared to APG. That sparsity is the key of FW's memory efficiency.
+  \end{itemize}
+  }
 \end{frame}
 % \begin{theorem}[Identifiability]
 %     \label{theorem:identifibility}
@@ -1458,18 +1505,24 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
 % \[
 %     [\nabla \varPhi_{\mu}(\bm{C})]_{n,\ell} = \dfrac{\exp (c_{n, \ell}/\mu)}{\sum^{N}_{i=1} \exp(c_{n, i}/\mu)} 
 % \] 
-\item Question: Can the regularization help FW to pick 
-    \[
-        n^{\star} \in \mathcal{K},
-    \] where
-    $n^{\star} := \argmin_{n}\;[\nabla h(\bm{c}_\ell)]_n$?
+\item Question: If at iteration $t$,  $\text{supp}(\bm{c}_\ell^{t}) \in \mathcal{K}$, can FW pick 
+    \[ n^{\star} \in \mathcal{K}, \] where
+    $n^{\star} := \argmin_{n}\;[\nabla h(\bm{c}_\ell)]_n$ in iteration $t+1$?
 \end{itemize}
 
 
 \note{
 \begin{itemize}
-        \item Simplex constraint is columns-wise imposed.
-        \item Linear objective function can be decomposed to columns of $\bm{C}$.
+    \item Let's us examine how FW could save memory in this case.
+    \item Recall the objective function now includes 2 terms: the fitting error and our regularization term.
+    \item Thanks to the updating procedure of FW and also because the constraint being imposing on column-wise, we can perform the update on column by column sequentially. 
+        Note that we can run it simultaneously but it would result in $O(N^2)$ memory to store the whole gradient matrix.
+    \item The gradient respect to 1 column of $\bm{C}$ is given by this.
+    \item The key enables guarantee of memory is that: If at iteration $t$ where we have  $\text{supp}(\bm{c}^{t}) \in \mathcal{K}$, can FW pick $n^{\star} \in \mathcal{K}$ in the next iteration?
+    \item Before showing why the statement holds, let's see what is the implication. This statement establishes a recursive relation on $\bm{C}$ between iterations. Hence, if we carefully initilize $\bm{C}$ to construct a base case suth that $\text{supp}(\bm{c}) \in \mathcal{K}$, then the index in next iteration is from $\mathcal{K}$, and hence we also have $\text{supp}(\bm{c}^{t+1}) \in \mathcal{K}$ holds in the next iteration.
+That means, the memory cost of saving $\bm{C}$ is again $O(KN)$ as was shown in noiseless case.
+
+    \item Gradient is comprised of 2 terms. Let's us go through these terms.
 \end{itemize}
 }
 \end{frame}
@@ -1484,7 +1537,7 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
 \end{align*}
     \item A demonstration of effect of noise that causes 
         \[
-        n^{\star}:=\argmin_{n}\; [\nabla f(\bm{c}_\ell)]_n \notin \mathcal{K}
+        n^{\star}:=\argmin_{n}\; [\nabla f(\bm{c}_\ell)]_n \notin \mathcal{K}.
     \]
 \[
     \footnotesize
@@ -1536,6 +1589,14 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
 \end{tikzpicture}
 \]
 \end{itemize}
+
+\note {
+\begin{itemize}
+    \item The first term is gradient of the fitting error. 
+    \item Recall that it is a sum of 2 terms:
+    \item Because of noise, the smallest element which was shown to be inside of $\mathcal{K}$, now be outside of $\mathcal{K}$.
+\end{itemize}
+}
 \end{frame}
 
 \begin{frame}[label=current]
@@ -1551,11 +1612,13 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
     &\bm{y}_\ell = [\nabla \varPhi_{\mu}(\bm{C})]_{:, \ell} , \quad 
     y_{n,\ell} = \dfrac{\exp (c_{n, \ell}/\mu)}{\sum^{N}_{i=1} \exp(c_{n, i}/\mu)} 
 \end{align*}
+        \item Assume that at iteration $t$,  $\text{supp}(\bm{c}^{t}_\ell) \subseteq \mathcal{K}$ for all $\ell$.
 \begin{itemize}
-    \item For $k \notin \mathcal{K}$,
-        $ y_{k, \ell} = 1/N$. 
-    \item If $ \exists k_0 \in \mathcal{K}$ such that $c_{k_0, \ell}$ is not the largest element in row $k_0$ (*), then
-         $ y_{k_0, \ell} < \exp ((c_{k_0, \ell} - c_{k_0, \star})/\mu), \quad c_{k_0, \star} = \max_{i} c_{k_0, i} $ 
+    \item For $\; n \notin \mathcal{K}$,
+        $ y_{n, \ell} = 1/N$. 
+    \item If $\quad \exists n_0 \in \mathcal{K}$ such that $c_{n_0, \ell}$ is not the largest element in row $n_0$ (*), then
+    $ y_{n_0, \ell} < \exp ((c_{n_0, \ell} - c_{n_0, \star})/\mu), \quad c_{n_0, \star} = \max_{i} c_{n_0, i} $.
+\item (*) can be enforced with some initialization.
 \end{itemize}
 
 \item An example of $\bm{C}$ and $\bm{y}_\ell$,
@@ -1568,6 +1631,7 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
  \vphantom{x} \& 0.3 \& \&\ldots \&   \& 0.1 \& \\
  \vphantom{x} \& 0.2\&\& \ldots \&   \& 0.6 \& \vphantom{x} \\
  \vphantom{x} \& 0.5 \&   \&\ldots\&  \& 0.3 \& \\
+ \vphantom{x} \& \vphantom{x} \&\& \& \& \& \\
  \vphantom{x} \&\bm{0} \&\& \vdots \&  \& \bm{0} \& \\
  \vphantom{x} \& \vphantom{x} \&\& \& \& \& \\
     };
@@ -1576,33 +1640,52 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
     \node[above=5pt of m-1-2.north east, anchor=south east] (ll) {};
     \node[above=5pt of m-1-6] (m) {$m$};
 
-    \node[below=6em of m-1-2.north west, anchor=north west] (dl) {};
-    \node[below=6em of m-1-2.north east, anchor=north east] (dr) {};
+    \node[below=7em of m-1-2.north west, anchor=north west] (dl) {};
+    \node[below=7em of m-1-2.north east, anchor=north east] (dr) {};
     \fill[myhighlight] 
         (l.south west) -- (dl.north west) -- 
         (dr.north east) -- (ll.south east) -- cycle;
-    \node[draw,rounded corners=3pt,inner xsep=1pt, fit=(m-2-1)(m-2-7)]{};
+    \node[draw,rounded corners=3pt,inner xsep=1pt, fit=(m-2-1)(m-2-7)] (roundk) {};
+    \node[right=10pt of roundk] (kkk) {$n_0$};
+    \draw[dashed,->] (kkk) -- (roundk);
 \end{tikzpicture}
 \quad \Longrightarrow \quad
 \bm{y}_\ell = 
-\left[
-\begin{array}{c}
+\begin{tikzpicture}[mymatrixenv,baseline=-\the\dimexpr\fontdimen22\textfont2\relax]
+    \matrix[mymatrix, ampersand replacement=\&,inner sep=2.5pt,
+    ] (y) {
     0.5 \\
     0.001 \\
     0.9 \\
     1/N \\
     \vdots \\
-    1/N
-\end{array}
-\right]
+    1/N \\
+    };
+    \node[right=10pt of y-2-1] (roundk) {$n_0$};
+    \draw[dashed,->] (roundk) -- (y-2-1);
+\end{tikzpicture}
 \] 
     \end{itemize}
 
+    \note{
+    \begin{itemize}
+        \item The second term is the gradient of regularization.
+            % We're considering column $\ell$-th.
+        \item Recall that we are assuming that at iteration $t$, we're having a ``good''  $\bm{c}$, in a sense that $\text{supp}(\bm{c}^{t}) $ is a subset of $\mathcal{K}$. 
+        \item With such $\bm{c}$, gradient of regularization, which we denote $\bm{y}_\ell$ has a special structure. In particular, 
+            \begin{itemize}
+                \item For index $n \notin \mathcal{K}$, \ldots 
+                \item For index $n_0 $ such that  \ldots 
+                \item The existence of $n_0$ can be guarantee by some initialization.
+            \end{itemize}
+
+    \end{itemize}
+    }
 \end{frame}
 
 
 \begin{frame}[label=current]
-    \frametitle{Regularization Can Saves Memory}
+    \frametitle{Effect of Regularization}
     \begin{block}
 
         Regularization can ensure $n^{\star} \in \mathcal{K}$ under some reasonable assumptions.
@@ -1615,12 +1698,12 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
     \item We have 
         \[
             \begin{cases}
-                y_{k_0, \ell} \approx 0 \quad& \text{for some }  k_0 \in \mathcal{K} \\
-                y_{k, \ell} = 1/N \quad & \text{if } k \notin \mathcal{K}
+                y_{n, \ell} = 1/N \quad & \text{if } n \notin \mathcal{K} \\
+                y_{n_0, \ell} \approx 0 \quad& \text{for some }  n_0 \in \mathcal{K}
             \end{cases}
         \] 
         \[
-            \Rightarrow \argmin_{n} \; [\nabla h(\bm{c}_\ell)]_n = k_0 \quad \text{for some $\lambda$}
+            \Rightarrow n^{\star}:=\argmin_{n} \; [\nabla h(\bm{c}_\ell)]_n = n_0 \quad \text{for some $\lambda$}
         \] 
         % And hence, FW will pick some index $k \in \mathcal{K}$ .
 \item An example of $\bm{C}$ and $\nabla h(\bm{c}_\ell)$,
@@ -1689,6 +1772,15 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
 \end{bmatrix}
 \]
     \end{itemize}
+
+    \note{
+    \begin{itemize}
+        % \item With that, now we can see how regularization can ensure the picked $n^{\star} \in \mathcal{K}$ .
+        \item Now we know that the gradient of regularization $\bm{y}_\ell$ has a special structure, such that \ldots 
+        \item That would lead to the picked $n^{\star}$ being inside $\mathcal{K}$ for some $\lambda$.
+
+    \end{itemize}
+    }
 \end{frame}
 
 % \begin{frame}[label=current]
@@ -1758,58 +1850,15 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
 %
 % \end{frame}
 
-\begin{frame}<presentation:0>
-    \frametitle{Condition (*)}
-
-    \begin{block}
-        
-        $ \exists k \in \mathcal{K}$ such that $\bm{C}(k, :)$ is not a constant
-
-$\Rightarrow \exists k \in \mathcal{K} $  such that $c_{k,\ell}$ is not the largest element in row $k$ (*).
-    \end{block}
 
 
-\begin{itemize}
-    \item Assume that for all $k \in \mathcal{K}$, $c_{k,\ell}$ is the largest element in row $k$.
-    \item Then for row $k$ such that  $\bm{C}(k, :)$ is not a constant, 
-        \[
-        \exists m, \quad c_{k, \ell} > c_{k, m}
-        \] 
-    \item That leads to
-        \[
-        1 = \bm{1}^{\T}\bm{c}_{\ell} > \bm{1}^{\T} \bm{c}_m = 1
-        \] 
-    \item The contradiction concludes our claim.
-\end{itemize}
-An example of $\bm{C}$,
-\[
-    \scriptsize
-    \bm{C} = 
-\begin{array}{*7{c}}% matrix for left braces
-    \coolleftbrace{\mathcal{K}}{x \\ x\\ x} \\
-    \vphantom{x} \\
-    \vphantom{x} \\
-    \vphantom{x} \\
-\end{array}%
-\left[  
-\begin{array}{c>{\columncolor{blue!20}}cccccc}
- & \cooloverH{\ell}{\cdot} & &\ldots &   & \cooloverH{m}{\cdot} & \\
- \tikzmarkx{left}{\vphantom{0} }&0.6&& \ldots &   & 0.5 &\tikzmarkx{right}{ } \\
- & \cdot &   &\ldots&  & \cdot & \\
- &\bm{0} && \vdots &  & \bm{0} & \\
- &&& & & & \\
-\end{array} 
-\right]
-\Highlight[first]
-\]
-
-\end{frame}
 \begin{frame}
     \frametitle{\texttt{MERIT} in Noisy Case}
     To sum up, in noisy case, under some reasonable assumptions, the proposed method \texttt{MERIT} can
     \begin{itemize}
-        \item Extract $\mathcal{K}$ exactly.
-        \item Produce $\bm{C}^{t}$ such that $\text{supp}(\bm{c}_\ell^{t}) \subseteq \mathcal{K}$ for all $\ell \in [N]$ at iteration $t$, hence guarantee a memory consumption of $O(KN)$.
+        \item Identify $\mathcal{K}$ exactly.
+        \item If $\bm{C}^{t}$ satisfies $\text{supp}(\bm{c}_\ell^{t}) \subseteq \mathcal{K}$ for all $\ell$, then $\text{supp}(\bm{c}_\ell^{t+1}) \subseteq \mathcal{K}$ for all $\ell$.
+        \item With some initialization, \texttt{MERIT} can guarantee a memory consumption of $O(KN)$.
     \end{itemize}
 \end{frame}
 
@@ -1894,6 +1943,11 @@ Metric
     \end{columns}
 
 
+    \note{
+    \begin{itemize}
+        \item We first evaluate performance of the proposed method \texttt{MERIT} using synthetic settings.
+    \end{itemize}
+    }
 \end{frame}
 
 \subsection{Real data}%
@@ -2217,11 +2271,56 @@ Metric
 %     \end{align*}
 %     Given the observations $A_{ij}, (i,j) \in \Omega$, we hope to estimate $\bm{M}, \bm{B}$.
 % \end{frame}
-
+\appendix
 \begin{frame}[allowframebreaks]
     \frametitle{Reference}
     { \footnotesize
     \printbibliography}
+\end{frame}
+\begin{frame}
+    \frametitle{Condition (*)}
+
+    \begin{block}
+        
+        $ \exists n_0 \in \mathcal{K}$ such that $\bm{C}(n_0, :)$ is not a constant
+
+$\Rightarrow \exists n_0 \in \mathcal{K} $  such that $c_{n_0,\ell}$ is not the largest element in row $n_0$ (*).
+    \end{block}
+
+
+\begin{itemize}
+    \item Assume that for all $n \in \mathcal{K}$, $c_{n,\ell}$ is the largest element in row $n$.
+    \item Then for row $n_0$ such that  $\bm{C}(n_0, :)$ is not a constant, 
+        \[
+        \exists m, \quad c_{n_0, \ell} > c_{n_0, m}
+        \] 
+    \item That leads to
+        \[
+        1 = \bm{1}^{\T}\bm{c}_{\ell} > \bm{1}^{\T} \bm{c}_m = 1
+        \] 
+    \item The contradiction concludes our claim.
+\end{itemize}
+An example of $\bm{C}$,
+\[
+    \scriptsize
+    \bm{C} = 
+\begin{array}{*7{c}}% matrix for left braces
+    \coolleftbrace{\mathcal{K}}{x \\ x\\ x} \\
+    \vphantom{x} \\
+    \vphantom{x} \\
+    \vphantom{x} \\
+\end{array}%
+\left[  
+\begin{array}{c>{\columncolor{blue!20}}cccccc}
+ & \cooloverH{\ell}{\cdot} & &\ldots &   & \cooloverH{m}{\cdot} & \\
+ \tikzmarkx{left}{\vphantom{0} }&0.6&& \ldots &   & 0.5 &\tikzmarkx{right}{ } \\
+ & \cdot &   &\ldots&  & \cdot & \\
+ &\bm{0} && \vdots &  & \bm{0} & \\
+ &&& & & & \\
+\end{array} 
+\right]
+\Highlight[first]
+\]
 \end{frame}
 
 % https://tex.stackexchange.com/questions/332027/how-to-annotate-matrices-with-circles-and-arrows
