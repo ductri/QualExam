@@ -22,8 +22,8 @@
 \usetheme{default}
 \usecolortheme{orchid}
 \usefonttheme{professionalfonts}
-\setbeamertemplate{note page}[plain]
-\setbeameroption{show notes on second screen=left}
+% \setbeamertemplate{note page}[plain]
+% \setbeameroption{show notes on second screen=left}
 
 \usepackage{graphicx} % Allows including images
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
@@ -118,6 +118,8 @@
 \pgfplotsset{
     % every axis/.append style={line width=1pt}
     legend style={font=\Large},
+    label style={font=\Large},
+    tick label style={font=\Large},
 }
 % --------------------------------------------------------- 
 % CUSTOM COMMANDS
@@ -689,7 +691,7 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
     \end{alignat*}
      \begin{itemize}
          \item The greedy approach identifies the set $\mathcal{K}$ by adding one index at a time \citep{fu2014self}.
-         \item Successive projection algorithm \citep{MC01} is a representative. 
+         \item Successive projection algorithm (SPA) \citep{MC01} is a representative. 
          \item Extracting $\mathcal{K}$ is guaranteed even in noisy case \citep{gillis2014fast}.
          \item All greedy-based methods have a Gram-Schmidt structure which is prone to error propagation under noisy conditions.
      \end{itemize}
@@ -829,14 +831,15 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
 
     \begin{figure}[!t]
       \centering
-      \begin{subfigure}[t]{0.3\textwidth}
+      \hspace{-0.5cm}
+      \begin{subfigure}[t]{0.32\textwidth}
       \centering
       \begin{tikzpicture}[scale=0.4]
           \begin{axis}[
               /pgf/number format/.cd,
               1000 sep={},
               xlabel=$n$,
-              ylabel=$\norm{\bm{C}_{\text{opt}}(n, :)}$,
+              ylabel=$\norm{\bm{C}_{\text{opt}}(n, :)}_{\infty}$,
               legend pos=south east,
               legend cell align={left},
               ]
@@ -849,14 +852,14 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
       \end{tikzpicture}
       \caption*{\texttt{APG - Objective value: $3.99{e-}5$}}
       \end{subfigure}
-      \begin{subfigure}[t]{0.3\textwidth}
+      \begin{subfigure}[t]{0.32\textwidth}
       \centering
       \begin{tikzpicture}[scale=0.4]
           \begin{axis}[
               /pgf/number format/.cd,
               1000 sep={},
               xlabel=$n$,
-              ylabel=$\norm{\bm{C}_{\text{opt}}(n, :)}$,
+              ylabel=$\norm{\bm{C}_{\text{opt}}(n, :)}_{\infty}$,
               legend pos=south east,
               legend cell align={left},
               ]
@@ -867,18 +870,20 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
           \legend{$n \notin \mathcal{K}$, $n \in \mathcal{K}$}
           \end{axis}
       \end{tikzpicture}
+
       \caption*{\texttt{FW} - Objective value: $2.86{e-}5$}
       \end{subfigure}
-      \begin{subfigure}[t]{0.3\textwidth}
+      \begin{subfigure}[t]{0.33\textwidth}
       \centering
       \begin{tikzpicture}[scale=0.4]
           \begin{axis}[
               /pgf/number format/.cd,
               1000 sep={},
               xlabel=iter,
-              ylabel=nnz($\bm{C}$),
+              ylabel=$\text{nnz}(\bm{C}$),
               legend pos=north east,
               legend cell align={left},
+              y label style={at={(axis description cs:-0.00,.5)},anchor=south},
               ]
           \addplot[orange,style=very thick] table [x=iter, y=PGD]{code/nnz_fw_pgd.dat};
           \addplot[blue,style=very thick] table [x=iter, y=FW]{code/nnz_fw_pgd.dat};
@@ -1206,7 +1211,7 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
               /pgf/number format/.cd,
               1000 sep={},
               xlabel=$n$,
-              ylabel=$\norm{\bm{C}_{\text{opt}}(n, :)}$,
+              ylabel=$\norm{\bm{C}_{\text{opt}}(n, :)}_\infty$,
               legend pos=south east,
               legend cell align={left},
               ]
@@ -1229,7 +1234,7 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
               ytick={0, 0.2, 0.4, 0.6, 0.8, 1.00},
               ymax=1,
               ymin=0,
-              ylabel=$\norm{\bm{C}_{\text{opt}}(n, :)}$,
+              ylabel=$\norm{\bm{C}_{\text{opt}}(n, :)}_\infty$,
               legend pos=south east,
               legend cell align={left},
               ]
@@ -1250,7 +1255,7 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
               ytick={0, 0.2, 0.4, 0.6, 0.8, 1.00},
               ymax=1,
               ymin=0,
-              ylabel=$\norm{\bm{C}_{\text{opt}}(n, :)}$,
+              ylabel=$\norm{\bm{C}_{\text{opt}}(n, :)}_\infty$,
               legend pos=south east,
               legend cell align={left},
               ]
@@ -1329,7 +1334,7 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
       \begin{subfigure}[t]{0.32\textwidth}
       \centering
       \hspace{-1cm}
-      \begin{tikzpicture}[scale=0.45]
+      \begin{tikzpicture}[scale=0.42]
           \begin{axis}[
               /pgf/number format/.cd,
               1000 sep={},
@@ -1347,10 +1352,9 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
       \end{tikzpicture}
       \caption*{\texttt{MERIT} - Objective value: $3.58{e-}01$}
       \end{subfigure}
-      \begin{subfigure}[t]{0.32\textwidth}
+      \begin{subfigure}[t]{0.33\textwidth}
       \centering
-      \hspace{-0.5cm}
-      \begin{tikzpicture}[scale=0.45]
+      \begin{tikzpicture}[scale=0.42]
           \begin{axis}[
               /pgf/number format/.cd,
               1000 sep={},
@@ -1370,7 +1374,7 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
       \end{subfigure}
       \begin{subfigure}[t]{0.32\textwidth}
       \centering
-      \begin{tikzpicture}[scale=0.45]
+      \begin{tikzpicture}[scale=0.42]
           \begin{axis}[
               /pgf/number format/.cd,
               1000 sep={},
@@ -1378,6 +1382,7 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
               ylabel=$\text{nnz}(\bm{C})$,
               legend pos=south east,
               legend cell align={left},
+              y label style={at={(axis description cs:-0.00,.5)},anchor=south},
               ]
           \addplot[orange,style=very thick] table [x=iter, y=FW]{code/demo3_nnz_fw_pgd.dat};
           \addplot[blue,style=very thick] table [x=iter, y=PGD]{code/demo3_nnz_fw_pgd.dat};
@@ -1508,7 +1513,7 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
 % \[
 %     [\nabla \varPhi_{\mu}(\bm{C})]_{n,\ell} = \dfrac{\exp (c_{n, \ell}/\mu)}{\sum^{N}_{i=1} \exp(c_{n, i}/\mu)} 
 % \] 
-\item Question: If at iteration $t$,  $\text{supp}(\bm{c}_\ell^{t}) \in \mathcal{K}$, can FW pick 
+\item Question: If at iteration $t$,  $\text{supp}(\bm{c}_\ell^{t}) \subseteq \mathcal{K}$, can FW pick 
     \[ n^{\star} \in \mathcal{K}, \] where
     $n^{\star} := \argmin_{n}\;[\nabla h(\bm{c}_\ell)]_n$ in iteration $t+1$?
 \end{itemize}
@@ -2279,7 +2284,7 @@ Metric
             % convex relaxation approach to tackle separable NMF
         \item When noise is absent, using FW can bring identification with memory $O(KN)$
         \item For the noisy case, we have proposed using a smooth regularization to guarantee identifiability.
-        \item For the noisy case, we have also shown that running FW only cost $O(KN)$ using some initialization strategy.
+        \item For the noisy case, we have also shown that running FW only cost $O(KN)$ under some reasonable assumptions.
 
             % {[\blue \scriptsize T. Nguyen, X. Fu, and R. Wu, ``Memory-efficient convex optimization for self-dictionary separable nonnegative matrix factorization: A Frank-Wolfe approach, '' IEEE TSP, revised. (2nd round revision)]}
     \end{itemize}
