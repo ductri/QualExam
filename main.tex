@@ -347,7 +347,7 @@ My name is Tri Nguyen. Thank you for serving as my committee. Today I'm glad to 
     \end{block}}
     \begin{block}
         
-    Given $\bm{X}$,how do we find the latent factors $\bm{W}, \bm{H}$?
+    Given $\bm{X}$, how do we find the latent factors $\bm{W}, \bm{H}$?
     \end{block}
     % In addition, $\bm{W}$ is assumed to be full rank.
     \begin{itemize}
@@ -444,7 +444,9 @@ My name is Tri Nguyen. Thank you for serving as my committee. Today I'm glad to 
         \begin{column}{1.\textwidth}
     \begin{itemize}
     \item By physical interpretation, $\bm{H} \geq 0, \bm{1}^{\T}\bm{H}=\bm{1}^{\T}$.
-    \item Range space of $\bm{H}$ can be estimated from $K$ leading eigenvectors of $\bm{A}$.
+    \item Range space of $\bm{H}$ can be estimated from 
+        % a matrix $\bm{X}$ constructing from 
+        $K$ leading eigenvectors of $\bm{A}$ (denoted as matrix $\bm{X}$).
         \citep{mao2017mixed,mao2017estimating,panov2018consistent,lei2015consistency}  
         \[
         \bm{X} = \bm{W} \bm{H} + \bm{N}
@@ -459,6 +461,7 @@ My name is Tri Nguyen. Thank you for serving as my committee. Today I'm glad to 
             \item As a well-known model, the mixed membership stochastic blockmodels models . Under this model, the task amounts to finding the membership matrix $\bm{H}$ from an observed adjacency matrix.
             \item As a membership vector, it is natural that $\bm{h}$ is in a probability simplex.
             \item This is nothing but the SSMF as we saw earlier.
+            \item {\blue Despite having a broad range of applications, solving a SSMF models is a difficult task.}
         \end{itemize}
     }
 \end{frame}
@@ -491,7 +494,7 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
 
 \note{
 \begin{itemize}
-    \item Note that we do not just want to explain $\bm{X}$ with some matrices $\bm{W}, \bm{H}$. What we really want is finding the ground truth $\bm{W}^{\star}, \bm{H}^{\star}$. However, NMF in general is an NP-hard problem.
+    % \item Note that we do not just want to explain $\bm{X}$ with some matrices $\bm{W}, \bm{H}$. What we really want is finding the ground truth $\bm{W}^{\star}, \bm{H}^{\star}$. However, NMF in general is an NP-hard problem.
     \item A natural attempt is to consider finding \ldots , and hope that the found solution could reveal $\bm{W}^{\star}, \bm{H}^{\star}$
     \item Unfortunately, the solution of Problem 1 is not unique. We can see why. It is trivial to construct $\bm{Q}$ \ldots 
     \item $\bm{W}', \bm{H}'$  in this case would not bring much useful information. For example, in topic modeling , $\bm{W}^{\star}$ represent the topics, while the sought $\bm{W}'$ represent a mixed of topics. Hence we haven't really got a good representation of topics by using $\bm{W}'$.
@@ -545,7 +548,7 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
 
 \note{
 \begin{itemize}
-    \item There have been several works that investigate the conditions that can guarantee identifiability.
+    \item There are many works that investigate in finding conditions that can guarantee identifiability.
     One of the well-known conditions is separability condition.
     \item It states that \ldots . The term was first coined in this work, and have been adapted in many works after that.
     \item The condition has been exploited to when it comes to algorithm design. Particularly, the problem of finding $\bm{W}, \bm{H}$ boils down to finding the set $\mathcal{K}$. The rationale is like this.
@@ -581,15 +584,22 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
         \item $\bm{C}_{\text{opt}}(\mathcal{K}, :) = \bm{H}, \bm{C}_{\text{opt}}(\mathcal{K}^{c}, :) = \bm{0}$ is an optimal solution point.
         \begin{itemize}
         \item $\norm{\bm{C}_\text{opt}}_{\text{row-}0} = K$.
-        \item For a full rank $\bm{W}$, one needs at least $K$ data points to represent $\bm{X}$.
+        \item For a full rank $\bm{W}$, one needs at least $K$ non-zero rows of $\bm{C}$ to construct $\bm{X}$.
         \end{itemize}
     \end{itemize}
 
-    \begin{figure}
-        \centering
-        \includegraphics[width=0.7\textwidth]{figures/sdmmv_demo/demo.png}
-        \caption*{Row-sparsity matrix $\bm{C}$ }
-    \end{figure}
+    % \begin{figure}
+    %     \centering
+    %     \includegraphics[width=0.7\textwidth]{figures/sdmmv_demo/demo.png}
+    %     \caption*{Row-sparsity matrix $\bm{C}_{\text{opt}}$ }
+    % \end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \incfig[0.9]{demoooo}
+    \caption*{Row-sparsity matrix $\bm{C}_{\text{opt}}$ }
+    \label{fig:demoooo}
+\end{figure}
 
     \note{
     \begin{itemize}
@@ -604,6 +614,22 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
         \item With this structure of $\bm{C}_{\text{opt}}$, we can easily identify $\mathcal{K}$.
     \end{itemize}}
 \end{frame}
+
+% \begin{frame}
+%     \frametitle{demo}
+%     \begin{figure}
+%         \centering
+%         \includegraphics[width=\textwidth]{figures/sdmmv_demo/demonstration.eps}
+%     \end{figure}
+%     
+% \begin{figure}[ht]
+%     \centering
+%     \incfig{demoooo}
+%     \caption{demoooo}
+%     \label{fig:demoooo}
+% \end{figure}
+%
+% \end{frame}
 
 % \begin{frame}
 %     \frametitle{A Self-Dictionary Perspective}
@@ -728,8 +754,8 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
     %     \item \texttt{FastGradient} \citep{gillis2018afast}, $R(\bm{C}) = p^{\T} \text{diag}(\bm{C})$
     % \end{itemize}
     % $\norm{\bm{C}}_{\infty, 1} := \sum^{N}_{n=1} \norm{\bm{C}(n, :)}_{\infty}$.
-\item $\mathcal{K}$ is identified based on optimal $\bm{C}$
-\item Often more robust than greedy approach
+\item $\mathcal{K}$ is identified in noisy conditions.
+\item Often more robust than greedy approach.
     \end{itemize}
 
     \begin{columns}
@@ -1106,9 +1132,10 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
         \item FW terminates when $\bm{c}^{t} = \bm{c}^{\star} = \begin{bmatrix}
         \bm{h} \\ \bm{0}
         \end{bmatrix}$.
-    \item Therefore, FW outputs $\bm{C}_{\text{opt}} = \bm{C}^{\star}$ using only $O(KN)$ memory.
+    % \item Therefore, FW outputs $\bm{C}_{\text{opt}} = \bm{C}^{\star}$ using only $O(KN)$ memory.
     \end{itemize}
     
+Therefore, FW outputs $\bm{C}_{\text{opt}} = \bm{C}^{\star}$ using only $O(KN)$ memory.
     \note{
     \begin{itemize}
         \item Firstly, gradient has this form
@@ -1339,7 +1366,7 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
               /pgf/number format/.cd,
               1000 sep={},
               xlabel=$n$,
-              ylabel=$\norm{\bm{C}_{\text{opt}}(n, :)}$,
+              ylabel=$\norm{\bm{C}_{\text{opt}}(n, :)}_\infty$,
               legend pos=south east,
               legend cell align={left},
               ]
@@ -1359,7 +1386,7 @@ for all $\bm{W}, \bm{H}$ satisfying criterion \eqref{problem:criteria}, it holds
               /pgf/number format/.cd,
               1000 sep={},
               xlabel=$n$,
-              ylabel=$\norm{\bm{C}_{\text{opt}}(n, :)}$,
+              ylabel=$\norm{\bm{C}_{\text{opt}}(n, :)}_\infty$,
               legend pos=south east,
               legend cell align={left},
               ]
